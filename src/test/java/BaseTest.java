@@ -1,5 +1,6 @@
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.edge.EdgeDriver;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
@@ -12,13 +13,13 @@ public class BaseTest {
 
     @BeforeClass
     public void testSetUp(){
-        driver = new ChromeDriver();
+        driver = new EdgeDriver();
 //        driver.manage().window().maximize();
-        driver.get("https://www.globalsqa.com/demo-site/select-dropdown-menu/");
+        driver.get("https://www.saucedemo.com/");
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5)); //To wait all Elements
     }
     @AfterClass
     public void tearDownTest(){
-//        driver.quit();
+        driver.quit();
 }
 }

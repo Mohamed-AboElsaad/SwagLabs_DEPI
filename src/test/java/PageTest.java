@@ -1,9 +1,8 @@
-import Pages.Login;
-import Pages.ProductPage;
-import org.openqa.selenium.By;
+import Pages.*;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 
 import java.io.IOException;
 import java.time.Duration;
@@ -12,7 +11,10 @@ public class PageTest extends BaseTest{
 
 Login login;
 ProductPage productPage;
-
+Cart cart;
+Checkout checkout;
+Confirmation confirmation;
+ThanksPage thanksPage;
 
 @DataProvider(name="ValidData")
     public static Object [][] credentials() throws IOException {
@@ -31,17 +33,77 @@ ProductPage productPage;
     login.addUsername(username);
     login.addPassword(password);
     login.clickOnLoginButton();
-    Assert.assertTrue(productPage.ckeckProductsTitle());
-    Assert.assertEquals(productPage.checkingTitleValue(),"Products");
+
     }
 
-    @Test
-    public void dropDownList(){
-    login = new Login(driver);
-    login.select(By.xpath("//div[@class='single_tab_div resp-tab-content resp-tab-content-active']//p//select"),2);
+    @Test(priority = 1)
+    public void shopping(){
+        productPage = new ProductPage(driver);
+        cart = new Cart(driver);
 
+        Assert.assertTrue(productPage.ckeckProductsTitle());
+        Assert.assertEquals(productPage.checkingTitleValue(),"Products");
+        productPage.clickAddToCart();
+//        productPage.clickOneButton();
+//        productPage.clickOneButton();
+        productPage.clickOnCartIcon();
+    }
+
+     @Test(priority = 2)
+    public void cartPage(){
+         cart = new Cart(driver);
+         SoftAssert softAssert = new SoftAssert();
+
+         Assert.assertTrue(cart.checkCartTitle());
+         softAssert.assertEquals(cart.checkCartTitleValue(),"Your Cart");
+         softAssert.assertAll();
+
+         cart.clickOnCheckoutButton();
+
+     }
+     @Test(priority = 3)
+    public void checkingout(){
+         checkout = new Checkout(driver);
+         SoftAssert softAssert = new SoftAssert();
+
+         softAssert.assertTrue(checkout.checkCheckoutTitle());
+         softAssert.assertEquals(checkout.checkCheckoutTitleValue(),"Checkout: Your Information");
+        softAssert.assertAll();
+
+        checkout.setFnameField();
+        checkout.setLnameField();
+        checkout.setZipCode();
+        checkout.clickOnContinueButton();
+     }
+
+    @Test(priority = 4)
+    public void confirmation(){
+    confirmation = new Confirmation(driver);
+    SoftAssert softAssert = new SoftAssert();
+
+        softAssert.assertTrue(confirmation.confirmationPageTitleDisplayed());
+        softAssert.assertEquals(confirmation.confirmationPageTitleValue(),"Checkout: Overview");
+        softAssert.assertAll();
+
+    confirmation.finishButtonClick();
+    }
+    @Test(priority = 5)
+    public void thanksPage(){
+    thanksPage = new ThanksPage(driver);
+    SoftAssert softAssert = new SoftAssert();
+
+        softAssert.assertTrue(thanksPage.messageDisplayed());
+        softAssert.assertEquals(thanksPage.messageValue(),"Thank you for your order!");
+
+
+    thanksPage.goBackButton();
+
+    softAssert.assertEquals(productPage.checkingTitleValue(),"Products");
+    softAssert.assertAll();
     }
 
 }
+
+
 
 

@@ -27,9 +27,11 @@ public class Login extends BasePage{
         clickOn(loginCTA);
     }
     public boolean checkTitleIsDisplayed(){
+        waitUntilElementIsVisible(homepagetitle,3);
         return checkingDisplay(homepagetitle);
     }
     public String getLoginTitle(){
-         return getText(homepagetitle);
+        waitUntilElementIsVisible(homepagetitle,3);
+        return getText(homepagetitle);
     }
 }
