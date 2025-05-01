@@ -11,13 +11,11 @@ import org.testng.asserts.SoftAssert;
 import java.time.Duration;
 import java.util.List;
 
-//**Methods are put here**//
+//**Methods are put here**//All Classes inherit from this one//
 public class BasePage {
 
     private WebDriver driver;
     private WebDriverWait wait;
-
-
 
     public BasePage(WebDriver driver){
         this.driver = driver;
