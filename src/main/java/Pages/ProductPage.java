@@ -14,7 +14,7 @@ public class ProductPage extends BasePage {
 
 
     public void clickAddToCart() {
-        waitUntilElementIsVisible(addTocartButtons,5);
+        waitUntilElementIsClickable(addTocartButtons,5);
         int j = getElementsListSize(addTocartButtons);
         int counter = 0;
 
